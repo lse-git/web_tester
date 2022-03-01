@@ -39,7 +39,7 @@ class Tester:
 
         self.export_button = Button(self.root, text="Export", anchor="n", command=lambda:self.save_file())
         self.export_button.grid(row=4, column=2)
-        self.export = []
+        self.exporti = []
         self.export_label = Label(self.root, text="Export data", anchor="s")
         self.export_label.grid(row=3, column=2)
 
@@ -58,9 +58,12 @@ class Tester:
                       ("all files", "*.*")]
         self.file = filedialog.asksaveasfile(filetypes = self.files, defaultextension = self.files)
         print(self.file)
+        self.export_file = open(self.file, "w")
+        self.export_file.write("")
+        self.export_file.close()
+        self.export_file = open(self.file, "a")
         for link in self.export:
-            self.file.write(link+"\n")
-        self.file.close()
+            self.export_file.write(link+"\n")
 
     def process_and_test(self):
         if self.source:
@@ -76,7 +79,7 @@ class Tester:
                 except:
                     print(line[:-1])
                     self.list_invalid.insert(self.invalid_index, line[:-1])
-                    self.export.insert(len(self.export), line[:-1])
+                    self.export.insert(line[:-1])
             self.source_file.close()
         else:
             self.test_button.configure(text="please select a file first")
